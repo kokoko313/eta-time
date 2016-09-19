@@ -161,7 +161,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   geocoder
-  jbuilder (~> 2.0)
+  jbuilder
   jquery-rails
   rails (= 4.2.5.1)
   rails-api
