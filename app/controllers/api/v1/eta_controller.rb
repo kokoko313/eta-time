@@ -1,5 +1,7 @@
-class EtaController < ApplicationController
-  def time
+module Api::V1
+  class EtaController < ApiController
+
+    def index
     #fix my position
     my_loc=[37.6173, 55.755826]
     #
@@ -28,10 +30,11 @@ class EtaController < ApplicationController
     #   else
 
      end
-
-
     render json: @eta
 
   end
   
 end
+end
+  
+  

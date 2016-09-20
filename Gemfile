@@ -48,3 +48,12 @@ end
 
 gem 'active_model_serializers', '~> 0.10.0.rc2'
 gem 'geocoder'
+
+group :development, :test do
+
+  # Use RSpec for specs
+  gem 'rspec-rails', '3.1.0'
+
+  # Use Factory Girl for generating random test data
+  gem 'factory_girl_rails'
+end
