@@ -2,8 +2,8 @@ require 'test_helper'
 
 class EtaControllerTest < ActionController::TestCase
   test "should get time" do
-    get :time
-    assert_response :success
+    eta = Eta.new
+    assert_not eta.save
   end
 
 end
