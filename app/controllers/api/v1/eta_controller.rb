@@ -3,7 +3,8 @@ module Api::V1
 
     def index
     #fix my position 
-    my_loc=[37.6173, 55.755826]
+    my_loc=[1, 4]
+
     #searching radius
     radius=5
     #searching for 3 nearest car
@@ -13,26 +14,21 @@ module Api::V1
       @cars = Car.where(available: true).near(my_loc,radius,:units => :km).first(3)
     end
     #creating arr with 3 harv_distance values 
-    @arr=[]
+    arr=[]
     @cars.each do |car|
-      car_pos =[]
-      car_pos << car.latitude 
-      car_pos << car.longitude
-      @arr << Geocoder::Calculations.distance_between(my_loc, car_pos,:units => :km)*1.5  
+      arr << Geocoder::Calculations.distance_between(my_loc, [car.latitude,car.longitude],:units => :km)*1.5  
     end
     #calc avrg time
-    res = @arr.sum/@arr.size
+    res = arr.sum/arr.size
     #save in db
-    @eta = Eta.new(time: res)
+    @eta = Eta.new(time: res.round(1))
     if @eta.save
       render json: @eta
       else
       render json: @eta.errors
-      end
-  
+    end
+    end
   end
-  
-end
 end
   
   
