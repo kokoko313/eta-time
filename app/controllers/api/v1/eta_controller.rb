@@ -2,15 +2,17 @@ module Api::V1
   class EtaController < ApiController
 
     def index
-    #fix my position
+    #fix my position 
     my_loc=[37.6173, 55.755826]
-    #
-    radius=10
-
-    @cars = Car.where(available: true).near(my_loc,radius,:units => :km).first(3)
-    # @tasks = Task.near("Moscow,Russia",10)
-    # Geocoder::Calculations.distance_between(my_loc, [40.748433,-73.985655])
-   
+    #searching radius
+    radius=5
+    #searching for 3 nearest car
+    @cars=[]
+    while @cars[2].nil?
+      radius +=5
+      @cars = Car.where(available: true).near(my_loc,radius,:units => :km).first(3)
+    end
+    #creating arr with 3 harv_distance values 
     @arr=[]
     @cars.each do |car|
       car_pos =[]
@@ -18,20 +20,16 @@ module Api::V1
       car_pos << car.longitude
       @arr << Geocoder::Calculations.distance_between(my_loc, car_pos,:units => :km)*1.5  
     end
-    
-    # @arr.sort.first(3).sum
-
-    if @arr[0].nil?
-     @eta = Eta.new(time: 9999)
-     else
-      @res = @arr.sum/@arr.size
-      @eta = Eta.new(time: @res)
-      @eta.save
-    #   else
-
-     end
-    render json: @eta
-
+    #calc avrg time
+    res = @arr.sum/@arr.size
+    #save in db
+    @eta = Eta.new(time: res)
+    if @eta.save
+      render json: @eta
+      else
+      render json: @eta.errors
+      end
+  
   end
   
 end
