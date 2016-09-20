@@ -9,4 +9,3 @@
 /home/tosha/prog/eta/app/controllers/api/v1/eta_controller.rb
 вход обозначен константой my_loc
 данные о позициях берутся из бд
-
